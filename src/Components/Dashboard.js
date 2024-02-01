@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import Loading from "./Loading";
 import ProductList from "./ProductList";
-import Line from "./Line";
-import Bar from "./Bar";
 import Navbar from "./Navbar";
 import Cards from "./Cards";
 import CustomHook from "./CustomHook";
-import OrdersChart from "./BarChart";
+import OrdersChart from "./OrdersChart";
 import orders from "./data";
 
 const Dashboard = () => {
@@ -31,8 +29,7 @@ const Dashboard = () => {
               
               <OrdersChart orders={orders} type={'line'} />
               <OrdersChart orders={orders} type={"bar"} />
-              {/* <Line /> */}
-              {/* <Bar /> */}
+              
             </section>
           </div>
         </div>
