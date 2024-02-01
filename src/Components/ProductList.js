@@ -43,8 +43,8 @@ const ProductList = () => {
 
   return (
     <div className="ProductList bg-white dark:bg-slate-800">
-      <div class="">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div>
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           {/*  the products will be filtered based on both the search input and the selected category. If no category is selected (selectedCategory is an empty string), it won't filter by category. If a category is selected, it will only display products in that category. */}
           <section className="md:flex block mb-5">
             {/* Search */}
