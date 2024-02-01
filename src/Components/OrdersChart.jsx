@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import orders from "./data";
+
 
 const OrdersChart = ({ orders, type }) => {
   const [chartOptions, setChartOptions] = useState({
     chart: {
-      type: "bar",
+      type: type,
     },
     xaxis: {
       categories: [],
@@ -21,7 +21,7 @@ const OrdersChart = ({ orders, type }) => {
     if (filteredOrders) {
       updateChart();
     }
-  }, [filteredOrders]);
+  }, [filteredOrders, type]);
 
   const updateChart = () => {
     const ordersByMonth = organizeDataByMonth(filteredOrders);
@@ -29,6 +29,9 @@ const OrdersChart = ({ orders, type }) => {
       prepareChartData(ordersByMonth);
 
     setChartOptions({
+      chart: {
+        type: type, 
+      },
       xaxis: {
         categories: categories,
       },
@@ -71,11 +74,12 @@ const OrdersChart = ({ orders, type }) => {
     ];
 
     const categories = Object.keys(ordersByMonth);
-    const seriesData = productIds.map((productId) => ({
+    const seriesData = productIds.map((productId, index) => ({
       name: `Product ${productId}`,
       data: categories.map(
         (monthOrders) => ordersByMonth[monthOrders][productId] || 0
       ),
+      key: index, 
     }));
 
     return { productIds, seriesData, categories };
@@ -84,7 +88,7 @@ const OrdersChart = ({ orders, type }) => {
   const handleFilterChange = (e) => {
     const filter = e.target.value;
     let filteredData;
-
+  
     if (filter === "days") {
       filteredData = orders.filter((order) => {
         const orderDate = new Date(order.date);
@@ -112,48 +116,47 @@ const OrdersChart = ({ orders, type }) => {
           12 * (currentDate.getFullYear() - orderDate.getFullYear());
         return differenceInMonths <= 1;
       });
+    } else if (filter === "year") {
+      filteredData = orders.filter((order) => {
+        const orderDate = new Date(order.date);
+        const currentDate = new Date();
+        const differenceInYears = currentDate.getFullYear() - orderDate.getFullYear();
+        return differenceInYears <= 1;
+      });
     } else {
       // Default: No filter
       filteredData = orders;
     }
-
+  
     setFilteredOrders(filteredData);
-
-    console.log('series' ,chartOptions.series);
   };
+  
 
   return (
     <div>
       <div className="flex mb-4 gap-2">
-        {/* <label className="text-white" htmlFor="filter">
-          Filter by :
-        </label>
-        <select id="filter" onChange={handleFilterChange}>
-          <option value="days">Days</option>
-          <option value="weeks">Weeks</option>
-          <option value="months">Last 2 Months</option>
-        </select> */}
-
         {/* Filter */}
-        <select id="categories"
-                    
-                    onChange={handleFilterChange}
-                    className="bg-gray-50 border border-[#04c788] text-[#04c788] text-sm rounded-lg focus:ring-[#04c788] focus:border-[#04c788] m-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                    >
-                      <option value="" className="hover:bg-[#04c788]" selected>
-                          Choose Date
-                      </option>
-                      <option value="days" className="hover:bg-[#04c788]" >
-                          Last Day
-                      </option>
-                      <option value="weeks" className="hover:bg-[#04c788]" >
-                          Last Week
-                      </option>
-                      <option value="months" className="hover:bg-[#04c788]" >
-                          Last Months
-                      </option>
-          </select>
-
+        <select
+          id="categories"
+          onChange={handleFilterChange}
+          className="bg-gray-50 border border-[#04c788] text-[#04c788] text-sm rounded-lg focus:ring-[#04c788] focus:border-[#04c788] m-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        >
+          <option value="" className="hover:bg-[#04c788]" selected>
+            Choose Date
+          </option>
+          <option value="days" className="hover:bg-[#04c788]">
+            Last Day
+          </option>
+          <option value="weeks" className="hover:bg-[#04c788]">
+            Last Week
+          </option>
+          <option value="months" className="hover:bg-[#04c788]">
+            Last Months
+          </option>
+          <option value="year" className="hover:bg-[#04c788]">
+            Last Year
+          </option>
+        </select>
       </div>
       <div>
         <Chart
