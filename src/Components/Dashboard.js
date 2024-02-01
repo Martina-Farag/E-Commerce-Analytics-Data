@@ -16,7 +16,7 @@ const Dashboard = () => {
       <Navbar />
 
 
-      {/* if todos exists (not equal null) then display my charts else display the loading component */}
+      {/* if products exists (not equal null) then display my charts else display the loading component */}
       {products ? (
         <div className="container lg:my-7">
           <Cards />
