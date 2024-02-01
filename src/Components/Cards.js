@@ -190,8 +190,8 @@ const Cards = () => {
                       y2="15.9524"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop stop-color="#8AFF6C" />
-                      <stop offset="1" stop-color="#02C751" />
+                      <stop stop-color="#4DFFDF" />
+                      <stop offset="1" stop-color="#4da1ff" />
                     </linearGradient>
                   </defs>
                 </svg>
