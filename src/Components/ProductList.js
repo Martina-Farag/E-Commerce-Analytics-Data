@@ -13,16 +13,23 @@ const ProductList = () => {
     CustomHook();
 
   useEffect(() => {
+
+    const abortCont = new AbortController();
     // get products categories data from Fake Store API by axios library.
     axiosInstance
-      .get(`/products/categories`, {})
+      .get(`/products/categories`, { signal: abortCont.signal })
       .then((result) => {
         // console.table(result.data);
         setCategories(result.data);
       })
       .catch((error) => {
-        console.log(error);
+        if(error.name === 'AbortError'){
+          console.log('Axios aborted');
+        }
+        else {console.log(error.message);}
       });
+
+      return () => abortCont.abort();
   }, []);
 
   const startIndex = (page - 1) * productsPerPage;
@@ -133,16 +140,18 @@ const ProductList = () => {
             <button
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
-              className="px-2 py-1 mr-2 bg-blue-500 hover:bg-blue-600 text-gray-700 dark:text-white rounded-md text-xs"
+              className="px-4 py-3 mr-2 bg-blue-500 hover:bg-blue-600 text-gray-700 dark:text-white rounded-md text-xs"
             >
               &lt; Prev
+              {/* ❮ Prev */}
             </button>
             <button
               onClick={() => setPage(page + 1)}
               disabled={endIndex >= filteredProducts.length}
-              className="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-xs"
+              className="px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-xs"
             >
               Next &gt;
+              {/* Next ❯ */}
             </button>
           </div>
           
