@@ -33,9 +33,10 @@ const ProductList = () => {
   if (products) {
     filteredProducts = products.filter(
       (product) =>
-        product.title.toLowerCase().includes(searchInput.toLowerCase()) &&
+        (searchInput === "" || product.title.toLowerCase().includes(searchInput.toLowerCase())) &&
         (selectedCategory === "" || product.category === selectedCategory)
     );
+    
   }
 
   const displayedProducts = filteredProducts.slice(startIndex, endIndex);
@@ -138,7 +139,7 @@ const ProductList = () => {
             </button>
             <button
               onClick={() => setPage(page + 1)}
-              disabled={products ? endIndex >= products.length : ""}
+              disabled={endIndex >= filteredProducts.length}
               className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
             >
               &#11208;
