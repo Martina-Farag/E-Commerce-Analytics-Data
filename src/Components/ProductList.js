@@ -76,7 +76,7 @@ const ProductList = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="bg-gray-50 border border-[#04c788] text-[#04c788] text-sm rounded-lg focus:ring-[#04c788] focus:border-[#04c788] m-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             >
-              <option value="" className="hover:bg-[#04c788]" selected>
+              <option value="" className="hover:bg-[#04c788]" >
                 Choose Category
               </option>
               {categories &&
