@@ -37,7 +37,7 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <div className="absolute inset-60 m-auto">
+        <div className="flex items-center justify-center h-screen">
           <Loading />
         </div>
       )}
